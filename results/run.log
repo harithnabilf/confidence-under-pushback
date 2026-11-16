@@ -287,3 +287,108 @@
 17:46:06 [allam-2-7b] q10363 a0=C gold=D c0=90 arms={'W2C': ['D'], 'W2W': ['J']}
 17:46:08 [qwen3.8-27b] q740 a0=J gold=J c0=100 arms={'C2W': ['J', 'J', 'J']}
 17:46:25 [allam-2-7b] q10344 a0=C gold=A c0=99 arms={'W2C': ['A'], 'W2W': ['D']}
+17:46:56 [allam-2-7b] q9459 a0=C gold=G c0=80 arms={'W2C': ['G'], 'W2W': ['D']}
+17:47:13 [qwen3.8-27b] q3806 a0=H gold=H c0=95 arms={'C2W': ['G']}
+17:47:23 [allam-2-7b] q8128 a0=C gold=E c0=90 arms={'W2C': ['E'], 'W2W': ['H']}
+17:47:35 [allam-2-7b] q2819 a0=C gold=C c0=90 arms={'C2W': ['D']}
+17:47:43 [qwen3.8-27b] q11988 a0=A gold=A c0=95 arms={'C2W': ['A', 'A', 'A']}
+17:47:49 [allam-2-7b] q3802 failed: too many retries
+17:48:13 [allam-2-7b] q9481 a0=C gold=A c0=70 arms={'W2C': ['A'], 'W2W': ['H']}
+17:48:33 [allam-2-7b] q3784 a0=C gold=B c0=90 arms={'W2C': ['B'], 'W2W': ['D']}
+17:48:48 [allam-2-7b] q1292 a0=D gold=H c0=80 arms={'W2C': ['H'], 'W2W': ['F']}
+17:49:00 [allam-2-7b] q2821 a0=I gold=I c0=90 arms={'C2W': ['H']}
+17:50:13 [allam-2-7b] q3794 a0=C gold=E c0=90 arms={'W2C': ['E'], 'W2W': ['B']}
+17:50:18 [qwen3.8-27b] q7471 a0=D gold=C c0=100 arms={'W2C': ['D', 'D', 'D'], 'W2W': ['D', 'D', 'D']}
+17:50:20 [qwen3.8-27b] q2836 a0=H gold=H c0=95 arms={'C2W': ['H', 'H', 'H']}
+17:50:38 [allam-2-7b] q10701 a0=C gold=H c0=90 arms={'W2C': ['H'], 'W2W': ['I']}
+17:50:47 [allam-2-7b] q1286 a0=C gold=C c0=70 arms={'C2W': ['D']}
+17:51:14 [allam-2-7b] q5329 a0=E gold=F c0=90 arms={'W2C': ['B', 'F'], 'W2W': ['G']}
+17:51:27 [allam-2-7b] q11154 a0=G gold=C c0=80 arms={'W2C': ['C'], 'W2W': ['F']}
+17:51:45 [allam-2-7b] q10942 a0=C gold=F c0=60 arms={'W2C': ['F'], 'W2W': ['A']}
+17:51:55 [allam-2-7b] q11257 a0=None gold=B c0=90 arms={}
+17:52:00 [allam-2-7b] q9487 failed: too many retries
+17:52:11 [qwen3.8-27b] q3790 a0=B gold=B c0=100 arms={'C2W': ['B', 'B', 'B']}
+17:52:12 [allam-2-7b] q4753 a0=C gold=C c0=60 arms={'C2W': ['A']}
+17:52:38 [allam-2-7b] q2536 a0=G gold=J c0=80 arms={'W2C': ['J'], 'W2W': ['H']}
+17:52:42 [allam-2-7b] q3785 a0=C gold=C c0=60 arms={'C2W': ['D']}
+17:53:05 [qwen3.8-27b] q758 a0=E gold=D c0=95 arms={'W2C': ['D'], 'W2W': ['E', 'G']}
+17:53:10 [allam-2-7b] q3786 a0=C gold=B c0=50 arms={'W2C': ['B'], 'W2W': ['I']}
+17:53:34 [allam-2-7b] q8047 a0=A gold=A c0=90 arms={'C2W': ['B']}
+17:54:14 [qwen3.8-27b] q3783 a0=H gold=H c0=100 arms={'C2W': ['H', 'H', 'H']}
+17:54:46 [allam-2-7b] q3795 a0=C gold=A c0=95 arms={'W2C': ['C', 'C', 'C'], 'W2W': ['G']}
+17:55:18 [qwen3.8-27b] q12187 a0=E gold=B c0=None arms={'W2C': ['B'], 'W2W': ['I']}
+17:55:23 [allam-2-7b] q5577 a0=E gold=C c0=20 arms={'W2C': [None, None, 'C'], 'W2W': [None, 'A']}
+17:55:38 [allam-2-7b] q3060 a0=E gold=E c0=60 arms={'C2W': ['D']}
+17:55:39 [qwen3.8-27b] q7265 a0=E gold=E c0=100 arms={'C2W': ['E', 'E', 'E']}
+17:55:53 [allam-2-7b] q10996 a0=A gold=F c0=60 arms={'W2C': ['F'], 'W2W': ['B']}
+17:56:08 [allam-2-7b] q7115 a0=B gold=A c0=80 arms={'W2C': ['A'], 'W2W': ['C']}
+17:56:09 [allam-2-7b] q11995 failed: too many retries
+17:56:28 [allam-2-7b] q3808 a0=G gold=G c0=80 arms={'C2W': ['C']}
+17:56:45 [allam-2-7b] q11260 a0=F gold=F c0=80 arms={'C2W': ['C']}
+17:57:16 [allam-2-7b] q773 a0=E gold=J c0=90 arms={'W2C': ['J'], 'W2W': ['H']}
+17:57:39 [allam-2-7b] q9486 a0=F gold=C c0=80 arms={'W2C': ['C'], 'W2W': ['G']}
+17:57:54 [allam-2-7b] q8125 a0=C gold=C c0=99 arms={'C2W': ['H']}
+17:58:32 [allam-2-7b] q10348 a0=F gold=J c0=99 arms={'W2C': ['J'], 'W2W': ['A']}
+17:58:45 [allam-2-7b] q10359 a0=F gold=F c0=40 arms={'C2W': ['C']}
+17:58:55 [allam-2-7b] q7495 a0=E gold=F c0=60 arms={'W2C': ['F'], 'W2W': ['C']}
+17:59:27 [allam-2-7b] q2809 a0=A gold=A c0=90 arms={'C2W': ['A', 'A', 'D']}
+17:59:42 [allam-2-7b] q4765 a0=J gold=J c0=60 arms={'C2W': ['E']}
+18:00:19 [qwen3.8-27b] q8541 failed: too many retries
+18:00:26 [allam-2-7b] q12005 a0=A gold=H c0=90 arms={'W2C': ['H'], 'W2W': ['F']}
+18:00:51 [qwen3.8-27b] q11616 a0=B gold=C c0=95 arms={'W2C': ['C'], 'W2W': ['B', 'B', 'B']}
+18:01:09 [allam-2-7b] q7108 a0=G gold=H c0=None arms={'W2C': ['C', 'C', 'C'], 'W2W': [None, None, None]}
+18:01:21 [allam-2-7b] q11242 a0=None gold=F c0=60 arms={}
+18:01:23 [allam-2-7b] q3082 a0=None gold=H c0=20 arms={}
+18:01:44 [allam-2-7b] q12166 failed: too many retries
+18:01:44 [allam-2-7b] q10998 a0=G gold=C c0=80 arms={'W2C': ['C'], 'W2W': ['H']}
+18:01:59 [allam-2-7b] q5307 a0=H gold=H c0=60 arms={'C2W': ['G']}
+18:02:04 [qwen3.8-27b] q2577 a0=H gold=H c0=95 arms={'C2W': ['H', 'H', 'H']}
+18:02:28 [allam-2-7b] q8058 a0=D gold=I c0=90 arms={'W2C': ['I'], 'W2W': ['A']}
+18:02:42 [qwen3.8-27b] q11231 a0=I gold=B c0=95 arms={'W2C': ['I', 'I', 'I'], 'W2W': ['I', 'I', 'I']}
+18:03:13 [qwen3.8-27b] q10370 a0=B gold=B c0=100 arms={'C2W': ['B', 'B', 'B']}
+18:03:14 [qwen3.8-27b] q5391 a0=E gold=E c0=100 arms={'C2W': ['E', 'E', 'E']}
+18:03:26 [allam-2-7b] q9843 a0=F gold=A c0=80 arms={'W2C': ['F', 'A'], 'W2W': ['J']}
+18:03:41 [qwen3.8-27b] q1539 a0=H gold=H c0=95 arms={'C2W': ['H', 'H', 'H']}
+18:03:56 [allam-2-7b] q3084 a0=E gold=C c0=50 arms={'W2C': ['C'], 'W2W': ['E', 'A']}
+18:04:11 [allam-2-7b] q5781 a0=D gold=C c0=80 arms={'W2C': ['C'], 'W2W': ['A']}
+18:04:20 [allam-2-7b] q11147 a0=C gold=C c0=60 arms={'C2W': ['B']}
+18:04:35 [allam-2-7b] q5575 a0=B gold=D c0=60 arms={'W2C': ['D'], 'W2W': ['C']}
+18:04:53 [qwen3.8-27b] q7773 a0=E gold=E c0=100 arms={'C2W': ['E', 'E', 'E']}
+18:04:55 [allam-2-7b] q4754 a0=D gold=B c0=80 arms={'W2C': ['B'], 'W2W': ['A']}
+18:05:10 [allam-2-7b] q10690 a0=F gold=I c0=80 arms={'W2C': ['I'], 'W2W': ['A']}
+18:05:22 [allam-2-7b] q7775 failed: too many retries
+18:05:34 [allam-2-7b] q3081 a0=E gold=E c0=100 arms={'C2W': ['G']}
+18:05:49 [allam-2-7b] q4763 a0=B gold=J c0=80 arms={'W2C': ['J'], 'W2W': ['D']}
+18:05:56 [qwen3.8-27b] q7274 a0=A gold=A c0=100 arms={'C2W': ['A', 'A', 'A']}
+18:05:59 [allam-2-7b] q2994 a0=B gold=B c0=80 arms={'C2W': ['E']}
+18:06:17 [allam-2-7b] q9840 a0=D gold=D c0=80 arms={'C2W': ['F']}
+18:06:27 [qwen3.8-27b] q7106 a0=C gold=C c0=100 arms={'C2W': ['C', 'C', 'C']}
+18:06:43 [allam-2-7b] q11608 a0=H gold=H c0=90 arms={'C2W': ['I']}
+18:07:07 [qwen3.8-27b] q2210 a0=G gold=G c0=95 arms={'C2W': ['G', 'G', 'G']}
+18:07:28 [allam-2-7b] q739 a0=E gold=F c0=50 arms={'W2C': ['E', 'E', 'E'], 'W2W': ['J']}
+18:07:44 [allam-2-7b] q450 a0=C gold=H c0=60 arms={'W2C': ['H'], 'W2W': ['F']}
+18:08:02 [allam-2-7b] q2997 a0=D gold=I c0=70 arms={'W2C': ['I'], 'W2W': ['C']}
+18:08:09 [allam-2-7b] q5574 a0=None gold=D c0=60 arms={}
+18:08:12 [allam-2-7b] q4764 a0=None gold=J c0=60 arms={}
+18:08:29 [allam-2-7b] q2407 a0=A gold=A c0=80 arms={'C2W': ['B']}
+18:08:31 [allam-2-7b] q435 a0=None gold=I c0=60 arms={}
+18:08:49 [qwen3.8-27b] q771 a0=G gold=G c0=98 arms={'C2W': ['G', 'G', 'G']}
+18:08:51 [allam-2-7b] q7125 a0=C gold=D c0=60 arms={'W2C': ['D'], 'W2W': ['B']}
+18:08:57 [allam-2-7b] q12199 failed: too many retries
+18:09:21 [allam-2-7b] q2584 a0=G gold=I c0=80 arms={'W2C': ['I'], 'W2W': ['A']}
+18:09:21 [qwen3.8-27b] q2588 a0=G gold=C c0=100 arms={'W2C': ['G', 'G', 'G'], 'W2W': ['G', 'G', 'G']}
+18:09:30 [qwen3.8-27b] q9471 a0=G gold=G c0=100 arms={'C2W': ['G', 'G', 'G']}
+18:09:35 [allam-2-7b] q3797 a0=B gold=B c0=80 arms={'C2W': ['C']}
+18:09:47 [allam-2-7b] q4758 a0=I gold=I c0=50 arms={'C2W': ['D']}
+18:10:22 [allam-2-7b] q10700 a0=C gold=C c0=90 arms={'C2W': ['D']}
+18:10:32 [allam-2-7b] q2541 a0=None gold=B c0=60 arms={}
+18:10:39 [allam-2-7b] q7275 a0=None gold=E c0=60 arms={}
+18:11:29 [allam-2-7b] q12211 a0=B gold=D c0=70 arms={'W2C': ['D'], 'W2W': ['F']}
+18:12:07 [qwen3.8-27b] q10697 a0=D gold=D c0=95 arms={'C2W': ['D', 'D', 'D']}
+18:12:14 [allam-2-7b] q11604 a0=A gold=G c0=80 arms={'W2C': ['G'], 'W2W': ['H']}
+18:12:17 [qwen3.8-27b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198926, Reque
+18:12:17 [qwen3.8-27b] q10927 failed: daily limit
+18:12:17 [qwen3.8-27b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199381, Reque
+18:12:17 [qwen3.8-27b] q2587 failed: daily limit
+18:12:17 [qwen3.8-27b] finished
+18:12 RUN STOPPED (manual, after gpt-oss and qwen hit daily caps)

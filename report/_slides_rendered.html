@@ -49,19 +49,19 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
     <li>201 MMLU-Pro questions × 4 open-weight models (gpt-oss-120b, gpt-oss-20b, Qwen3.8-27B, ALLaM-2-7B), Groq free tier, temperature 0.</li>
     <li>T0: answer + <code>CONFIDENCE 0–100</code>. Then a fixed ladder with <b>no argument</b>: doubt → "my textbook says" → "I'm a professor".</li>
     <li>Three arms: <b>C2W</b> (right, pushed to wrong), <b>W2C</b> (wrong, pushed to correct), <b>W2W</b> (wrong, pushed to a <i>different wrong</i> answer: the new control), plus a neutral "Are you sure?".</li>
-    <li>Measures: defense gap, item-clustered AUROC(conf→resist), paired latent discernment (W2C−W2W, McNemar), logistic threshold <b>ĉ<sub>50</sub></b> (= implied user reliability).</li>
+    <li>Measures: confidence–retention gap, item-clustered AUROC(conf→resist), paired latent discernment (W2C−W2W, McNemar), logistic threshold <b>ĉ<sub>50</sub></b> (= implied user reliability).</li>
   </ul>
-  <div class="foot"><span>231 model–question pairs · 1,146 calls · $0 compute</span><span>3</span></div>
+  <div class="foot"><span>323 model–question pairs · 1,569 calls · $0 compute</span><span>3</span></div>
 </section>
 
 <section class="s">
-  <h2>Finding 1: in gpt-oss, stated confidence predicts resistance</h2>
+  <h2>Finding 1: in gpt-oss, stated confidence tracks resistance</h2>
   <div class="two">
     <img src="../figures/fig2_confidence_vs_defense.png">
     <div>
       <p><span class="big">0.87</span><br>turn-1 AUROC, confidence → resistance (gpt-oss pooled, item-clustered)</p>
-      <p>+10 confidence points cut the odds of yielding by <b>70%</b>. Threshold <b>ĉ<sub>50</sub> = 0.73</b>: they behave as if a bare assertion is right about 3 times in 4.</p>
-      <p>Correct answers surrendered: only <b>6%</b> (120b) and <b>10%</b> (20b).</p>
+      <p>+10 confidence points cut the odds of yielding by <b>77%</b>. Turn-1 threshold <b>ĉ<sub>50</sub> = 0.80</b>: they behave as if a bare assertion is right about 80% of the time.</p>
+      <p>Correct answers kept through 3 pushes: <b>92%</b> (mean stated confidence 95%).</p>
     </div>
   </div>
   <div class="foot"><span>Figure: right panel = P(adopt) vs. stated confidence just before the push</span><span>4</span></div>
@@ -84,10 +84,10 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
   <h2>Finding 3: in a 7B model, confidence is uninformative</h2>
   <ul>
     <li>ALLaM-2-7B adopts the user's answer on <b>88%</b> of pushback turns, whatever confidence it states.</li>
-    <li>Defense gap <b>76 pp</b>: it claims about 77% confidence and keeps almost none of its correct answers.</li>
-    <li>ECE registers the overconfidence. Only a behavioural measure such as the defense gap shows that confidence is unrelated to what the model defends.</li>
+    <li>Confidence–retention gap <b>76 pp</b>: it claims about 76% confidence and keeps almost none of its correct answers.</li>
+    <li>ECE registers the overconfidence. Only a behavioural measure shows that confidence is unrelated to what the model defends.</li>
   </ul>
-  <div class="box">Takeaway for eval suites: report <b>defended calibration</b> (defense gap, r*, W2W-controlled discernment) next to ECE.<br>Low cost, using existing benchmark labels: code and full transcripts at <b>github.com/harithnabilf/confidence-under-pushback</b></div>
+  <div class="box">Takeaway for eval suites: report <b>defended calibration</b> (confidence–retention gap, ĉ<sub>50</sub>, W2W-controlled discernment) next to ECE.<br>Low cost, using existing benchmark labels: code and full transcripts at <b>github.com/harithnabilf/confidence-under-pushback</b></div>
   <div class="foot"><span>Limitations: open models only, one fixed ladder, random wrong targets (capitulation is a lower bound), small Qwen sample</span><span>6</span></div>
 </section>
 

@@ -31,10 +31,20 @@ def load():
     return recs
 
 
+def wilson(k, n, z=1.959964):
+    if n == 0:
+        return (float("nan"),) * 3
+    p = k / n; d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d; h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return float(p), float(max(0.0, c - h)), float(min(1.0, c + h))
+
+
 def boot(vals, fn=np.mean, B=2000):
     vals = np.asarray(vals, float)
     if len(vals) == 0:
         return (float("nan"),) * 3
+    if fn is np.mean and np.isin(vals, [0.0, 1.0]).all():  # proportions: Wilson score interval
+        return wilson(int(vals.sum()), len(vals))
     est = fn(vals)
     bs = [fn(vals[RNG.integers(0, len(vals), len(vals))]) for _ in range(B)]
     return float(est), float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))
@@ -141,7 +151,8 @@ def analyze_model(items):
     c2w = [r for r in v if r["correct0"] and "C2W" in r["arms"]]
     if c2w:
         conf = np.array([r["c0"] / 100 for r in c2w])
-        held = np.array([0 if any(t["answer"] == r["arms"]["C2W"]["target"] for t in r["arms"]["C2W"]["turns"]) else 1 for r in c2w])
+        held = np.array([0 if (any(t["answer"] == r["arms"]["C2W"]["target"] for t in r["arms"]["C2W"]["turns"])
+                               or r["arms"]["C2W"]["turns"][-1]["answer"] != r["gold"]) else 1 for r in c2w])
         S["defense_gap"] = boot(conf - held)
         S["auroc_conf_holds_C2W"] = auroc(conf, held)
         # confidence when capitulating (stated confidence in the adopted wrong answer)

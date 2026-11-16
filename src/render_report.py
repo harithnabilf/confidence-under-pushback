@@ -115,42 +115,48 @@ def _row_cls(m):
 def table_adopt():
     h = ("<table><tr><th>Model</th><th>Capitulation<br>(C2W)</th><th>Correction<br>(W2C)</th><th>Control<br>(W2W)</th>"
          "<th>Discernment<br>W2C − C2W</th><th>Fisher<br><i>p</i></th><th>Latent discernment<br>W2C − W2W (paired)</th><th>McNemar<br><i>p</i></th>"
-         "<th>W2C beyond<br>neutral re-ask</th></tr>")
+         "<th>W2C turn 1 minus<br>neutral re-ask fix</th></tr>")
     for m in ORDER + ["gptoss-pooled"]:
         if m not in S:
             continue
         x = S[m]["x"]
         if m == "gptoss-pooled":
             h += (f"<tr class='pooled'><td>gpt-oss pooled</td><td colspan='3' style='text-align:center'>(both gpt-oss models)</td><td>–</td><td>{_pv(x['fisher_w2c_vs_c2w']['p'])}</td>"
-                  f"<td>{_ci3(x['latent_paired'])}<span class='ci'> n={x['mcnemar']['n_pairs']}</span></td><td>{_pv(x['mcnemar']['p'])}</td><td>{_ci3(x['w2c_minus_neutral_fix'])}</td></tr>")
+                  f"<td>{_ci3(x['latent_paired'])}<span class='ci'> n={x['mcnemar']['n_pairs']}</span></td><td>{_pv(x['mcnemar']['p'])}</td><td>{_ci3(x['w2c_t1_minus_neutral'])}</td></tr>")
             continue
         s_ = S[m]
         h += (f"<tr{_row_cls(m)}><td>{m}</td><td>{_ci3(s_['C2W_adopt3'])}<span class='ci'> n={s_['C2W_n']}</span></td>"
               f"<td>{_ci3(s_['W2C_adopt3'])}<span class='ci'> n={s_['W2C_n']}</span></td><td>{_ci3(s_['W2W_adopt3'])}</td>"
               f"<td>{_ci3(s_['discernment3'])}</td><td>{_pv(x['fisher_w2c_vs_c2w']['p'])}</td>"
-              f"<td>{_ci3(x['latent_paired'])}</td><td>{_pv(x['mcnemar']['p'])}</td><td>{_ci3(x['w2c_minus_neutral_fix'])}</td></tr>")
+              f"<td>{_ci3(x['latent_paired'])}</td><td>{_pv(x['mcnemar']['p'])}</td><td>{_ci3(x['w2c_t1_minus_neutral'])}</td></tr>")
     return h + "</table>"
 
 
 def table_conf():
-    h = ("<table><tr><th>Model</th><th>AUROC conf→resist<br>turn 1 only</th><th>AUROC<br>wrong-T0 arms</th><th>AUROC<br>all turns</th>"
-         "<th>OR per +10 pts<br>confidence</th><th>Threshold <i>ĉ</i><sub>50</sub><br>(= implied <i>r</i>)</th><th>Defense gap<br>(C2W)</th></tr>")
-    f2 = lambda t: "–" if (not t or t[0] != t[0]) else f"{t[0]:.2f}<span class='ci'> [{t[1]:.2f}, {t[2]:.2f}]</span>"
+    h = ("<table><tr><th>Model</th><th>AUROC conf→no adoption<br>turn 1, all arms</th><th>AUROC<br>turn 1, C2W only</th><th>AUROC<br>wrong-T0 arms</th>"
+         "<th>OR per +10 pts<br>(turn 1)</th><th><i>ĉ</i><sub>50</sub> (turn 1)<br>= implied <i>r</i></th><th>Correct answers kept:<br>observed / yardstick / mean conf.</th></tr>")
+    f2 = lambda t: "–" if (not t or t[0] != t[0]) else (f"{t[0]:.2f}" + ("<span class='ci'> [n/a]</span>" if t[1] == t[2] else f"<span class='ci'> [{t[1]:.2f}, {t[2]:.2f}]</span>"))
     for m in ORDER + ["gptoss-pooled"]:
         if m not in S:
             continue
         x = S[m]["x"]; c = x.get("c50") or {}
+        name = "gpt-oss pooled" if m == "gptoss-pooled" else m
+        cls = " class='pooled'" if m == "gptoss-pooled" else _row_cls(m)
+        kept = x.get("kept_c2w")
+        kp = "–" if not kept or kept[0] != kept[0] else f"{kept[0]*100:.0f}%"
+        yp = x.get("yardstick_keep_pred"); mc = x.get("mean_conf_c2w")
+        keepcell = kp + " / " + ("–" if yp is None else f"{yp*100:.0f}%") + " / " + ("–" if mc is None else f"{mc*100:.0f}%")
+        if m == "qwen3.8-27b":
+            h += f"<tr{cls}><td>{name}</td><td colspan='5' style='text-align:center'>descriptive only (n too small for inference)</td><td>{keepcell}</td></tr>"
+            continue
         if c and c.get("slope") == c.get("slope") and c.get("slope", 0) < 0 and c.get("c50") == c.get("c50"):
             orr = f"{math.exp(c['slope']):.2f}<span class='ci'> [{math.exp(c['slope_lo']):.2f}, {math.exp(c['slope_hi']):.2f}]</span>"
             cc = f"{c['c50']:.2f}<span class='ci'> [{c['lo']:.2f}, {c['hi']:.2f}]</span>"
         else:
             orr = (f"{math.exp(c['slope']):.2f}<span class='ci'> [{math.exp(c['slope_lo']):.2f}, {math.exp(c['slope_hi']):.2f}]</span>" if c and c.get('slope') == c.get('slope') else "–")
             cc = "none (ceiling)"
-        name = "gpt-oss pooled" if m == "gptoss-pooled" else m
-        gap = _ci3(S[m].get("defense_gap")) if m in ORDER else "–"
-        cls = " class='pooled'" if m == "gptoss-pooled" else _row_cls(m)
-        h += (f"<tr{cls}><td>{name}</td><td>{f2(x['auroc_turn1'])}</td><td>{f2(x['auroc_wrong'])}</td><td>{f2(x['auroc_all_clustered'])}</td>"
-              f"<td>{orr}</td><td>{cc}</td><td>{gap}</td></tr>")
+        h += (f"<tr{cls}><td>{name}</td><td>{f2(x['auroc_turn1'])}</td><td>{f2(x['auroc_c2w_t1'])}</td><td>{f2(x['auroc_wrong'])}</td>"
+              f"<td>{orr}</td><td>{cc}</td><td>{keepcell}</td></tr>")
     return h + "</table>"
 
 
@@ -219,7 +225,7 @@ def main():
     html = html.replace("[[NQ]]", "201").replace("[[NTOKENS]]", f"{P['tokens']/1e6:.1f}M")
     html = html.replace("[[PARSEFAIL]]", f"{P['parse_fail_calls']}")
     logtxt = open(os.path.join(ROOT, "results", "run.log"), encoding="utf-8").read()
-    fails = {m: len(set(re.findall(r"\[" + re.escape(m) + r"\] q(\d+) failed", logtxt))) for m in ORDER}
+    fails = {m: len(set(re.findall(r"\[" + re.escape(m) + r"\] q(\d+) failed: too many retries", logtxt))) for m in ORDER}
     html = html.replace("[[APIFAIL]]", ", ".join(f"{m}: {n}" for m, n in fails.items()))
     html = html.replace("[[APIFAILTOTAL]]", str(sum(fails.values())))
     html = html.replace("</style>", "tr.dim td{color:#777} tr.pooled td{border-top:0.5px solid #999;font-style:italic} </style>")
