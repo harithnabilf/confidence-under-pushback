@@ -26,8 +26,8 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
 </style></head><body>
 
 <section class="s title">
-  <h1>Confidence You Won't Defend</h1>
-  <p class="sub">Do LLMs act on their own stated confidence under escalating user pushback?</p>
+  <h1>Do Language Models Defend What They Claim to Know?</h1>
+  <p class="sub">Stated confidence under argument-free user pushback</p>
   <p class="sub" style="margin-top:0.6in">Harith Nabil · National University of Malaysia</p>
   <div class="foot"><span>AI x Epistemics Research Sprint 2026 · Track 1: Model Epistemics &amp; Decision-Making Evals</span><span>with Apart Research</span></div>
 </section>
@@ -40,7 +40,7 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
     <li>Nobody checks whether stated confidence predicts what a model will <b>defend</b>.</li>
   </ul>
   <div class="box">Normative anchor (Bayes, uniform residual belief): <b>switch to the user's answer ⇔ your confidence c &lt; the user's reliability r</b>.<br>So switching should follow a threshold in the model's own confidence.</div>
-  <div class="foot"><span>Confidence You Won't Defend</span><span>2</span></div>
+  <div class="foot"><span>Do Language Models Defend What They Claim to Know?</span><span>2</span></div>
 </section>
 
 <section class="s">
@@ -49,18 +49,18 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
     <li>[[NQ]] MMLU-Pro questions × 4 open-weight models (gpt-oss-120b, gpt-oss-20b, Qwen3.8-27B, ALLaM-2-7B), Groq free tier, temperature 0.</li>
     <li>T0: answer + <code>CONFIDENCE 0–100</code>. Then a fixed ladder with <b>no argument</b>: doubt → "my textbook says" → "I'm a professor".</li>
     <li>Three arms: <b>C2W</b> (right, pushed to wrong), <b>W2C</b> (wrong, pushed to correct), <b>W2W</b> (wrong, pushed to a <i>different wrong</i> answer: the new control), plus a neutral "Are you sure?".</li>
-    <li>Metrics: defense gap, AUROC(conf→resist), latent discernment (W2C−W2W), implied user reliability <b>r*</b>.</li>
+    <li>Measures: defense gap, item-clustered AUROC(conf→resist), paired latent discernment (W2C−W2W, McNemar), logistic threshold <b>ĉ<sub>50</sub></b> (= implied user reliability).</li>
   </ul>
   <div class="foot"><span>[[NITEMS]] model–question pairs · [[NCALLS]] calls · $0 compute</span><span>3</span></div>
 </section>
 
 <section class="s">
-  <h2>Finding 1: for gpt-oss, confidence governs caving</h2>
+  <h2>Finding 1: in gpt-oss, stated confidence predicts resistance</h2>
   <div class="two">
     <img src="../figures/fig2_confidence_vs_defense.png">
     <div>
-      <p><span class="big">[[F:gpt-oss-120b:auroc_conf_resist_turnlevel]]</span><br>AUROC: confidence predicts resistance (gpt-oss-120b)</p>
-      <p>Threshold fit <b>r* ≈ [[F:gpt-oss-120b:best_r]]</b>: the model acts as if a bare user assertion is about 80% reliable.</p>
+      <p><span class="big">[[F:gptoss-pooled:x.auroc_turn1]]</span><br>turn-1 AUROC, confidence → resistance (gpt-oss pooled, item-clustered)</p>
+      <p>+10 confidence points cut the odds of yielding by <b>[[ORRED:gptoss-pooled:x.c50.slope]]</b>. Threshold <b>ĉ<sub>50</sub> = [[F:gptoss-pooled:x.c50.c50]]</b>: they behave as if a bare assertion is right about 3 times in 4.</p>
       <p>Correct answers surrendered: only <b>[[P:gpt-oss-120b:C2W_adopt3]]</b> (120b) and <b>[[P:gpt-oss-20b:C2W_adopt3]]</b> (20b).</p>
     </div>
   </div>
@@ -68,12 +68,12 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
 </section>
 
 <section class="s">
-  <h2>Finding 2: "corrections" are mostly compliance</h2>
+  <h2>Finding 2: corrections are only partly discerning</h2>
   <div class="two">
     <img src="../figures/fig1_flip_curves.png">
     <div>
-      <p>When wrong, gpt-oss-120b adopts the <b>correct</b> answer in [[P:gpt-oss-120b:W2C_adopt3]] of cases… and a <b>different wrong</b> answer in [[P:gpt-oss-120b:W2W_adopt3]].</p>
-      <p>Latent discernment is only <b>[[PP:gpt-oss-120b:latent3]]</b>. A model changing its mind is weak evidence that the user was right.</p>
+      <p>When wrong, gpt-oss adopts the <b>correct</b> answer in [[P:gptoss-pooled:x.w2c_paired_rate]] of cases… and a <b>different wrong</b> answer in [[P:gptoss-pooled:x.w2w_paired_rate]] (same items).</p>
+      <p>Latent discernment <b>[[PP:gptoss-pooled:x.latent_paired]]</b> (McNemar [[PV:gptoss-pooled:x.mcnemar.p]]): real, but most yielding is not specific to the truth.</p>
       <p class="warn">Overconfidence carries over into behaviour: wrong answers stated at ≥90% resist <i>valid</i> correction.</p>
     </div>
   </div>
@@ -81,13 +81,13 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
 </section>
 
 <section class="s">
-  <h2>Finding 3: in a 7B model, confidence has no effect</h2>
+  <h2>Finding 3: in a 7B model, confidence is uninformative</h2>
   <ul>
     <li>ALLaM-2-7B adopts the user's answer on <b>[[P:allam-2-7b:base_adopt_rate_turnlevel]]</b> of pushback turns, whatever confidence it states.</li>
     <li>Defense gap <b>[[PP:allam-2-7b:defense_gap]]</b>: it claims about [[P:allam-2-7b:mean_conf0]] confidence and keeps almost none of its correct answers.</li>
-    <li>Standard calibration metrics (ECE) do not reveal this. The defense gap does.</li>
+    <li>ECE registers the overconfidence. Only a behavioural measure such as the defense gap shows that confidence is unrelated to what the model defends.</li>
   </ul>
-  <div class="box">Takeaway for eval suites: report <b>defended calibration</b> (defense gap, r*, W2W-controlled discernment) next to ECE.<br>Cheap and label-free: code and full transcripts at <b>github.com/harithnabilf/confidence-under-pushback</b></div>
+  <div class="box">Takeaway for eval suites: report <b>defended calibration</b> (defense gap, r*, W2W-controlled discernment) next to ECE.<br>Low cost, using existing benchmark labels: code and full transcripts at <b>github.com/harithnabilf/confidence-under-pushback</b></div>
   <div class="foot"><span>Limitations: open models only, one fixed ladder, random wrong targets (capitulation is a lower bound), small Qwen sample</span><span>6</span></div>
 </section>
 

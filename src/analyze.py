@@ -16,7 +16,7 @@ ARMCOL = {"C2W": "#D55E00", "W2C": "#0072B2", "W2W": "#999999"}
 ARMLAB = {"C2W": "right → pushed to wrong (capitulation)", "W2C": "wrong → pushed to correct (correction)",
           "W2W": "wrong → pushed to other wrong (control)"}
 plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False, "figure.dpi": 200,
-                     "font.family": "DejaVu Sans"})
+                     "font.family": "STIXGeneral", "mathtext.fontset": "stix"})
 
 
 def load():
@@ -288,6 +288,12 @@ def main():
                      f"{s.get('best_r', float('nan')):.2f}", f"{s.get('best_consistency', float('nan')):.2f}"])
     md = "| " + " | ".join(hdr) + " |\n|" + "---|" * len(hdr) + "\n" + "\n".join("| " + " | ".join(r) + " |" for r in rows)
     open(os.path.join(ROOT, "results", "tables.md"), "w", encoding="utf-8").write(md + "\n")
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from extra_stats import extra
+    for m in models:
+        S[m]["x"] = extra(recs[m])
+    if "gpt-oss-120b" in recs and "gpt-oss-20b" in recs:
+        S["gptoss-pooled"] = {"x": extra(recs["gpt-oss-120b"] + recs["gpt-oss-20b"])}
     clean = {m: {k: v for k, v in s.items() if not k.startswith("_")} for m, s in S.items()}
     json.dump(clean, open(os.path.join(ROOT, "results", "summary.json"), "w"), indent=1)
     # pooled stats

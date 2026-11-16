@@ -1,5 +1,5 @@
 """Fill report/report.html placeholders from results/summary.json + report/sections/*.html, then print to PDF with Edge."""
-import json, os, re, subprocess, sys
+import json, math, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REP = os.path.join(ROOT, "report")
@@ -21,11 +21,11 @@ def ci(t):
 
 def table1():
     h = ("<table><tr><th>Model</th><th>N</th><th>Accuracy T0</th><th>Mean conf. (right / wrong)</th><th>Wrong answers stated ≥90%</th>"
-         "<th>ECE</th><th>AUROC conf→correct</th><th>Neutral re-ask: answer changed</th></tr>")
+         "<th>ECE</th><th>AUROC<br>conf→correct</th><th>Re-ask changes<br>right answers</th><th>Re-ask changes<br>wrong answers</th><th>Re-ask fixes<br>wrong answers</th></tr>")
     for m in ORDER:
         s = S[m]
-        h += (f"<tr><td>{m}</td><td>{s['n_valid']}</td><td>{ci(s['acc0'])}</td><td>{pc(s['mean_conf_right'])} / {pc(s['mean_conf_wrong'])}</td>"
-              f"<td>{pc(s['share_wrong_conf_ge90'])}</td><td>{s['ece0']:.2f}</td><td>{s['auroc_conf_correct']:.2f}</td><td>{ci(s['neutral_change'])}</td></tr>")
+        h += (f"<tr{_row_cls(m)}><td>{m}</td><td>{s['n_valid']}</td><td>{ci(s['acc0'])}</td><td>{pc(s['mean_conf_right'])} / {pc(s['mean_conf_wrong'])}</td>"
+              f"<td>{pc(s['share_wrong_conf_ge90'])}</td><td>{s['ece0']:.2f}</td><td>{s['auroc_conf_correct']:.2f}</td><td>{ci(s['neutral_change_right'])}</td><td>{ci(s['neutral_change_wrong'])}</td><td>{ci(s['neutral_fix_wrong'])}</td></tr>")
     return h + "</table>"
 
 
@@ -95,6 +95,83 @@ def examples():
     return out
 
 
+def _ci3(t, pp=False):
+    if not t or any(v != v for v in t):
+        return "–"
+    z = lambda q: ("0" if f"{q*100:.0f}" == "-0" else f"{q*100:.0f}")
+    return f"{z(t[0])}<span class='ci'> [{z(t[1])}, {z(t[2])}]</span>"
+
+
+def _pv(p):
+    if p != p:
+        return "–"
+    return "&lt;.001" if p < 0.001 else (f"{p:.3f}".lstrip("0") if p < 0.995 else "1.00")
+
+
+def _row_cls(m):
+    return " class='dim'" if m == "qwen3.8-27b" else ""
+
+
+def table_adopt():
+    h = ("<table><tr><th>Model</th><th>Capitulation<br>(C2W)</th><th>Correction<br>(W2C)</th><th>Control<br>(W2W)</th>"
+         "<th>Discernment<br>W2C − C2W</th><th>Fisher<br><i>p</i></th><th>Latent discernment<br>W2C − W2W (paired)</th><th>McNemar<br><i>p</i></th>"
+         "<th>W2C beyond<br>neutral re-ask</th></tr>")
+    for m in ORDER + ["gptoss-pooled"]:
+        if m not in S:
+            continue
+        x = S[m]["x"]
+        if m == "gptoss-pooled":
+            h += (f"<tr class='pooled'><td>gpt-oss pooled</td><td colspan='3' style='text-align:center'>(both gpt-oss models)</td><td>–</td><td>{_pv(x['fisher_w2c_vs_c2w']['p'])}</td>"
+                  f"<td>{_ci3(x['latent_paired'])}<span class='ci'> n={x['mcnemar']['n_pairs']}</span></td><td>{_pv(x['mcnemar']['p'])}</td><td>{_ci3(x['w2c_minus_neutral_fix'])}</td></tr>")
+            continue
+        s_ = S[m]
+        h += (f"<tr{_row_cls(m)}><td>{m}</td><td>{_ci3(s_['C2W_adopt3'])}<span class='ci'> n={s_['C2W_n']}</span></td>"
+              f"<td>{_ci3(s_['W2C_adopt3'])}<span class='ci'> n={s_['W2C_n']}</span></td><td>{_ci3(s_['W2W_adopt3'])}</td>"
+              f"<td>{_ci3(s_['discernment3'])}</td><td>{_pv(x['fisher_w2c_vs_c2w']['p'])}</td>"
+              f"<td>{_ci3(x['latent_paired'])}</td><td>{_pv(x['mcnemar']['p'])}</td><td>{_ci3(x['w2c_minus_neutral_fix'])}</td></tr>")
+    return h + "</table>"
+
+
+def table_conf():
+    h = ("<table><tr><th>Model</th><th>AUROC conf→resist<br>turn 1 only</th><th>AUROC<br>wrong-T0 arms</th><th>AUROC<br>all turns</th>"
+         "<th>OR per +10 pts<br>confidence</th><th>Threshold <i>ĉ</i><sub>50</sub><br>(= implied <i>r</i>)</th><th>Defense gap<br>(C2W)</th></tr>")
+    f2 = lambda t: "–" if (not t or t[0] != t[0]) else f"{t[0]:.2f}<span class='ci'> [{t[1]:.2f}, {t[2]:.2f}]</span>"
+    for m in ORDER + ["gptoss-pooled"]:
+        if m not in S:
+            continue
+        x = S[m]["x"]; c = x.get("c50") or {}
+        if c and c.get("slope") == c.get("slope") and c.get("slope", 0) < 0 and c.get("c50") == c.get("c50"):
+            orr = f"{math.exp(c['slope']):.2f}<span class='ci'> [{math.exp(c['slope_lo']):.2f}, {math.exp(c['slope_hi']):.2f}]</span>"
+            cc = f"{c['c50']:.2f}<span class='ci'> [{c['lo']:.2f}, {c['hi']:.2f}]</span>"
+        else:
+            orr = (f"{math.exp(c['slope']):.2f}<span class='ci'> [{math.exp(c['slope_lo']):.2f}, {math.exp(c['slope_hi']):.2f}]</span>" if c and c.get('slope') == c.get('slope') else "–")
+            cc = "none (ceiling)"
+        name = "gpt-oss pooled" if m == "gptoss-pooled" else m
+        gap = _ci3(S[m].get("defense_gap")) if m in ORDER else "–"
+        cls = " class='pooled'" if m == "gptoss-pooled" else _row_cls(m)
+        h += (f"<tr{cls}><td>{name}</td><td>{f2(x['auroc_turn1'])}</td><td>{f2(x['auroc_wrong'])}</td><td>{f2(x['auroc_all_clustered'])}</td>"
+              f"<td>{orr}</td><td>{cc}</td><td>{gap}</td></tr>")
+    return h + "</table>"
+
+
+def table_strat():
+    h = ("<table><tr><th>Model</th><th>C2W<br>conf&lt;90</th><th>C2W<br>conf≥90</th><th>W2C<br>conf&lt;90</th><th>W2C<br>conf≥90</th>"
+         "<th>W2W<br>conf&lt;90</th><th>W2W<br>conf≥90</th><th>Keep rate (C2W) by T0 confidence<br>&lt;90 / 90–94 / 95–100</th></tr>")
+    for m in ORDER + ["gptoss-pooled"]:
+        if m not in S:
+            continue
+        if m == "gptoss-pooled":
+            kb = S[m]["x"]["keep_bins"]
+            kk = " / ".join("–" if kb[k]['n'] == 0 else f"{kb[k]['keep']*100:.0f}%<span class='ci'> ({kb[k]['n']})</span>" for k in ["<90", "90-94", "95-100"])
+            h += f"<tr class='pooled'><td>gpt-oss pooled</td><td colspan='6'></td><td>{kk}</td></tr>"
+            continue
+        st = S[m]["strat"]; kb = S[m]["x"]["keep_bins"]
+        cell = lambda k: "–" if st[k][1] == 0 else f"{st[k][0]*100:.0f}%<span class='ci'> ({st[k][1]})</span>"
+        kk = " / ".join("–" if kb[k]['n'] == 0 else f"{kb[k]['keep']*100:.0f}%<span class='ci'> ({kb[k]['n']})</span>" for k in ["<90", "90-94", "95-100"])
+        h += f"<tr{_row_cls(m)}><td>{m}</td>" + "".join(f"<td>{cell(k)}</td>" for k in ["C2W_lo", "C2W_hi", "W2C_lo", "W2C_hi", "W2W_lo", "W2W_hi"]) + f"<td>{kk}</td></tr>"
+    return h + "</table>"
+
+
 def main():
     html = open(os.path.join(REP, "report.html"), encoding="utf-8").read()
     secdir = os.path.join(REP, "sections")
@@ -117,22 +194,35 @@ def main():
             return f"{v[0]*100:.0f}% [{v[1]*100:.0f}, {v[2]*100:.0f}]"
         if kind == "PP":  # percentage points
             x = v[0] if isinstance(v, list) else v
-            return f"{x*100:.0f} pp"
+            o = f"{x*100:.0f}"; return ("0" if o == "-0" else o) + " pp"
         if kind == "PPCI":
-            return f"{v[0]*100:.0f} pp [{v[1]*100:.0f}, {v[2]*100:.0f}]"
+            z = lambda q: ("0" if f"{q*100:.0f}" == "-0" else f"{q*100:.0f}")
+            return f"{z(v[0])} pp [{z(v[1])}, {z(v[2])}]"
         if kind == "F":
             x = v[0] if isinstance(v, list) else v
-            return f"{x:.2f}"
+            out = f"{x:.2f}"
+            return "0.00" if out == "-0.00" else out
+        if kind == "PV":
+            x = v["p"] if isinstance(v, dict) else v
+            return "<i>p</i> &lt; .001" if x < 0.001 else ("<i>p</i> = " + f"{x:.3f}".lstrip("0") if x < 0.995 else "<i>p</i> = 1.00")
+        if kind == "OR":
+            return f"{math.exp(v):.2f}"
+        if kind == "ORRED":
+            return f"{(1 - math.exp(v)) * 100:.0f}%"
         if kind == "N":
             return str(v)
         return mo.group(0)
-    html = re.sub(r"\[\[(PCI|PPCI|PP|P|F|N):([a-z0-9.\-]+):([A-Za-z0-9_.]+)\]\]", sub, html)
+    html = re.sub(r"\[\[(PCI|PPCI|PP|PV|ORRED|OR|P|F|N):([a-z0-9.\-]+):([A-Za-z0-9_.]+)\]\]", sub, html)
     nitems = sum(S[m]["n_valid"] for m in ORDER)
-    html = html.replace("[[TABLE1]]", table1()).replace("[[TABLE2]]", table2()).replace("[[TABLE3]]", table3()).replace("[[EXAMPLES]]", examples())
+    html = html.replace("[[TABLE1]]", table1()).replace("[[TABLE2]]", table_adopt()).replace("[[TABLE2B]]", table_conf()).replace("[[TABLE3]]", table_strat()).replace("[[EXAMPLES]]", examples())
     html = html.replace("[[NITEMS]]", f"{nitems:,}").replace("[[NCALLS]]", f"{P['n_calls']:,}")
     html = html.replace("[[NQ]]", "201").replace("[[NTOKENS]]", f"{P['tokens']/1e6:.1f}M")
     html = html.replace("[[PARSEFAIL]]", f"{P['parse_fail_calls']}")
-    html = html.replace("</style>", ".ci{color:#777;font-size:7.6pt} </style>")
+    logtxt = open(os.path.join(ROOT, "results", "run.log"), encoding="utf-8").read()
+    fails = {m: len(set(re.findall(r"\[" + re.escape(m) + r"\] q(\d+) failed", logtxt))) for m in ORDER}
+    html = html.replace("[[APIFAIL]]", ", ".join(f"{m}: {n}" for m, n in fails.items()))
+    html = html.replace("[[APIFAILTOTAL]]", str(sum(fails.values())))
+    html = html.replace("</style>", "tr.dim td{color:#777} tr.pooled td{border-top:0.5px solid #999;font-style:italic} </style>")
     left = re.findall(r"\[\[[A-Z0-9_]+\]\]", html)
     if left:
         print("UNFILLED:", sorted(set(left)))
@@ -161,7 +251,7 @@ def main():
     sp = os.path.join(REP, "slides.html")
     if os.path.exists(sp):
         sl = open(sp, encoding="utf-8").read()
-        sl = re.sub(r"\[\[(PCI|PPCI|PP|P|F|N):([a-z0-9.\-]+):([A-Za-z0-9_.]+)\]\]", sub, sl)
+        sl = re.sub(r"\[\[(PCI|PPCI|PP|PV|ORRED|OR|P|F|N):([a-z0-9.\-]+):([A-Za-z0-9_.]+)\]\]", sub, sl)
         sl = sl.replace("[[NITEMS]]", f"{nitems:,}").replace("[[NCALLS]]", f"{P['n_calls']:,}").replace("[[NQ]]", "201")
         left = re.findall(r"\[\[[^\]]+\]\]", sl)
         if left:

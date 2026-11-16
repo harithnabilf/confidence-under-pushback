@@ -162,3 +162,128 @@
 17:32:58 [gpt-oss-20b] q2210 a0=G gold=G c0=95 arms={'C2W': ['G', 'G', 'I']}
 17:32:59 [gpt-oss-120b] q7773 a0=E gold=E c0=96 arms={'C2W': ['E', 'E', 'E']}
 17:33:02 [allam-2-7b] q5391 a0=H gold=E c0=60 arms={'W2C': ['E'], 'W2W': ['E', 'C']}
+17:33:14 [allam-2-7b] q10370 a0=B gold=B c0=90 arms={'C2W': ['J']}
+17:33:22 [allam-2-7b] q1539 a0=None gold=H c0=60 arms={}
+17:33:27 [allam-2-7b] q7106 a0=None gold=C c0=40 arms={}
+17:33:31 [gpt-oss-120b] q771 a0=G gold=G c0=92 arms={'C2W': ['G', 'G', 'G']}
+17:33:32 [allam-2-7b] q3783 failed: too many retries
+17:33:33 [gpt-oss-20b] q771 a0=G gold=G c0=95 arms={'C2W': ['G', 'G', 'G']}
+17:33:40 [gpt-oss-20b] q2588 a0=G gold=C c0=100 arms={'W2C': ['G', 'G', 'G'], 'W2W': ['G', 'G', 'G']}
+17:33:45 [allam-2-7b] q7274 a0=None gold=A c0=60 arms={}
+17:33:54 [gpt-oss-120b] q2210 a0=G gold=G c0=95 arms={'C2W': ['G', 'G', 'G']}
+17:33:58 [gpt-oss-120b] q2588 a0=G gold=C c0=99 arms={'W2C': ['G', 'G', 'G'], 'W2W': ['G', 'G', 'G']}
+17:34:01 [qwen3.8-27b] q5788 a0=F gold=F c0=95 arms={'C2W': ['F', 'F', 'F']}
+17:34:01 [allam-2-7b] q7773 a0=E gold=E c0=90 arms={'C2W': ['F']}
+17:34:13 [allam-2-7b] q2210 a0=H gold=G c0=60 arms={'W2C': ['G'], 'W2W': ['B']}
+17:34:15 [gpt-oss-20b] q2587 a0=C gold=C c0=90 arms={'C2W': ['C', 'C', 'C']}
+17:34:32 [gpt-oss-20b] q10927 a0=I gold=I c0=95 arms={'C2W': ['I', 'I', 'I']}
+17:34:41 [gpt-oss-120b] q10697 a0=D gold=D c0=95 arms={'C2W': ['D', 'D', 'D']}
+17:34:43 [qwen3.8-27b] q2200 a0=B gold=B c0=100 arms={'C2W': ['B', 'B', 'B']}
+17:34:44 [gpt-oss-20b] q4781 a0=J gold=J c0=100 arms={'C2W': ['J', 'J', 'J']}
+17:34:55 [gpt-oss-120b] q2587 a0=H gold=C c0=68 arms={'W2C': ['C'], 'W2W': ['H', 'H', 'H']}
+17:35:01 [gpt-oss-20b] q10697 a0=D gold=D c0=100 arms={'C2W': ['D', 'D', 'D']}
+17:35:08 [gpt-oss-120b] q4781 a0=J gold=J c0=97 arms={'C2W': ['J', 'J', 'J']}
+17:35:08 [allam-2-7b] q9471 a0=None gold=G c0=99 arms={}
+17:35:09 [allam-2-7b] q2588 a0=None gold=C c0=60 arms={}
+17:35:33 [allam-2-7b] q10697 a0=G gold=D c0=90 arms={'W2C': ['D'], 'W2W': ['J']}
+17:35:33 [gpt-oss-120b] q763 a0=G gold=D c0=78 arms={'W2C': ['G', 'G', 'D'], 'W2W': ['H']}
+17:35:36 [gpt-oss-20b] q763 a0=I gold=D c0=80 arms={'W2C': ['I', 'I', 'D'], 'W2W': ['I', 'I', 'E']}
+17:35:48 [qwen3.8-27b] q3789 failed: too many retries
+17:35:52 [allam-2-7b] q2587 a0=A gold=C c0=60 arms={'W2C': ['C'], 'W2W': ['D']}
+17:35:54 [gpt-oss-120b] q9466 a0=H gold=H c0=99 arms={'C2W': ['H', 'H', 'H']}
+17:35:55 [gpt-oss-20b] q9466 a0=H gold=H c0=70 arms={'C2W': ['H', 'H', 'H']}
+17:36:00 [gpt-oss-120b] q10927 a0=I gold=I c0=92 arms={'C2W': ['I', 'I', 'I']}
+17:36:00 [allam-2-7b] q10927 a0=I gold=I c0=80 arms={'C2W': ['B']}
+17:36:12 [gpt-oss-120b] q10369 a0=B gold=B c0=95 arms={'C2W': ['G']}
+17:36:13 [gpt-oss-20b] q10369 a0=B gold=B c0=95 arms={'C2W': ['B', 'B', 'B']}
+17:36:15 [allam-2-7b] q4781 a0=J gold=J c0=60 arms={'C2W': ['F']}
+17:36:18 [gpt-oss-20b] q5741 a0=A gold=A c0=95 arms={'C2W': ['B']}
+17:36:20 [allam-2-7b] q763 a0=D gold=D c0=80 arms={'C2W': ['A']}
+17:36:29 [gpt-oss-120b] q7488 a0=C gold=C c0=92 arms={'C2W': ['C', 'C', 'C']}
+17:36:42 [gpt-oss-20b] q7488 a0=C gold=C c0=95 arms={'C2W': ['C', 'C', 'C']}
+17:36:54 [allam-2-7b] q771 failed: too many retries
+17:36:55 [allam-2-7b] q9466 a0=G gold=H c0=80 arms={'W2C': ['H'], 'W2W': ['A']}
+17:36:56 [gpt-oss-120b] q5741 a0=A gold=A c0=92 arms={'C2W': ['A', 'A', 'A']}
+17:37:14 [allam-2-7b] q7488 a0=A gold=C c0=90 arms={'W2C': ['C'], 'W2W': ['D']}
+17:37:15 [gpt-oss-20b] q10683 a0=A gold=C c0=90 arms={'W2C': ['C'], 'W2W': ['A', 'A', 'B']}
+17:37:21 [gpt-oss-120b] q11987 a0=F gold=F c0=92 arms={'C2W': ['F', 'F', 'F']}
+17:37:22 [allam-2-7b] q10369 a0=B gold=B c0=60 arms={'C2W': ['A']}
+17:37:27 [gpt-oss-20b] q11987 a0=F gold=F c0=90 arms={'C2W': ['F', 'F', 'F']}
+17:37:44 [gpt-oss-120b] q10362 a0=A gold=A c0=96 arms={'C2W': ['A', 'A', 'A']}
+17:37:50 [allam-2-7b] q10683 a0=A gold=C c0=90 arms={'W2C': ['C'], 'W2W': ['G']}
+17:38:11 [allam-2-7b] q5741 a0=C gold=A c0=70 arms={'W2C': ['A'], 'W2W': ['B']}
+17:38:16 [gpt-oss-120b] q10683 failed: too many retries
+17:38:19 [gpt-oss-20b] q10362 a0=A gold=A c0=100 arms={'C2W': ['A', 'A', 'A']}
+17:38:29 [gpt-oss-120b] q7480 a0=B gold=B c0=95 arms={'C2W': ['B', 'B', 'B']}
+17:38:32 [gpt-oss-20b] q7480 a0=B gold=B c0=100 arms={'C2W': ['B', 'B', 'B']}
+17:38:36 [qwen3.8-27b] q452 failed: too many retries
+17:38:40 [gpt-oss-120b] q12202 a0=A gold=D c0=78 arms={'W2C': ['D'], 'W2W': ['A', 'A', 'A']}
+17:38:47 [gpt-oss-20b] q8127 a0=G gold=G c0=100 arms={'C2W': ['G', 'G', 'G']}
+17:38:55 [allam-2-7b] q11987 a0=C gold=F c0=80 arms={'W2C': ['F'], 'W2W': ['J']}
+17:38:55 [gpt-oss-120b] q7117 a0=J gold=J c0=95 arms={'C2W': ['J', 'J', 'J']}
+17:39:04 [gpt-oss-20b] q7117 a0=J gold=J c0=100 arms={'C2W': ['J', 'J', 'J']}
+17:39:10 [gpt-oss-20b] q12202 failed: too many retries
+17:39:17 [gpt-oss-120b] q8127 a0=G gold=G c0=99 arms={'C2W': ['G', 'G', 'G']}
+17:39:20 [gpt-oss-20b] q4785 a0=D gold=D c0=85 arms={'C2W': ['D', 'B']}
+17:39:32 [gpt-oss-120b] q1541 a0=I gold=E c0=78 arms={'W2C': ['E'], 'W2W': ['I', 'I', 'I']}
+17:39:42 [allam-2-7b] q12202 a0=D gold=D c0=90 arms={'C2W': ['D', 'I']}
+17:39:52 [gpt-oss-20b] q1541 a0=G gold=E c0=100 arms={'W2C': ['G', 'G', 'G'], 'W2W': ['G', 'G', 'G']}
+17:39:53 [allam-2-7b] q7480 a0=B gold=B c0=40 arms={'C2W': ['A']}
+17:39:59 [gpt-oss-120b] q4779 a0=C gold=C c0=92 arms={'C2W': ['C', 'C', 'C']}
+17:40:08 [gpt-oss-20b] q10698 a0=D gold=D c0=100 arms={'C2W': ['D', 'D', 'D']}
+17:40:12 [gpt-oss-120b] q4785 a0=I gold=D c0=78 arms={'W2C': ['D'], 'W2W': ['I', 'I', 'I']}
+17:40:12 [allam-2-7b] q8127 a0=D gold=G c0=50 arms={'W2C': ['G'], 'W2W': ['J']}
+17:40:16 [gpt-oss-20b] q4779 failed: too many retries
+17:40:26 [gpt-oss-120b] q10698 a0=D gold=D c0=99 arms={'C2W': ['D', 'D', 'D']}
+17:40:38 [gpt-oss-120b] q7500 a0=H gold=H c0=95 arms={'C2W': ['H', 'H', 'H']}
+17:40:39 [gpt-oss-20b] q7500 a0=H gold=H c0=100 arms={'C2W': ['H', 'H', 'H']}
+17:40:48 [allam-2-7b] q10362 a0=D gold=A c0=90 arms={'W2C': ['D', 'D', 'D'], 'W2W': ['F']}
+17:40:50 [gpt-oss-120b] q3803 a0=A gold=A c0=96 arms={'C2W': ['I']}
+17:41:02 [gpt-oss-20b] q7791 a0=C gold=C c0=100 arms={'C2W': ['C', 'C', 'C']}
+17:41:16 [allam-2-7b] q1541 a0=E gold=E c0=80 arms={'C2W': ['D']}
+17:41:17 [gpt-oss-120b] q11150 a0=D gold=I c0=92 arms={'W2C': ['D', 'I'], 'W2W': ['D', 'D', 'D']}
+17:41:26 [qwen3.8-27b] q12083 failed: too many retries
+17:41:26 [gpt-oss-20b] q11150 a0=D gold=I c0=90 arms={'W2C': ['D', 'C', 'C'], 'W2W': ['D', 'D', 'C']}
+17:41:31 [gpt-oss-120b] q2391 a0=A gold=E c0=85 arms={'W2C': ['E'], 'W2W': ['C']}
+17:41:31 [allam-2-7b] q4785 a0=D gold=D c0=50 arms={'C2W': ['E']}
+17:41:43 [gpt-oss-20b] q3803 failed: too many retries
+17:41:50 [allam-2-7b] q7117 a0=B gold=J c0=80 arms={'W2C': ['C', 'D', 'J'], 'W2W': ['D', None, 'C']}
+17:41:53 [gpt-oss-20b] q2391 a0=A gold=E c0=90 arms={'W2C': ['A', 'A', 'E'], 'W2W': ['A', 'A', 'A']}
+17:41:55 [gpt-oss-120b] q8117 a0=I gold=I c0=97 arms={'C2W': ['I', 'I', 'I']}
+17:42:00 [allam-2-7b] q4779 a0=A gold=C c0=60 arms={'W2C': ['C'], 'W2W': ['I']}
+17:42:12 [gpt-oss-120b] q7791 a0=C gold=C c0=95 arms={'C2W': ['C', 'C', 'C']}
+17:42:21 [allam-2-7b] q7500 a0=C gold=H c0=90 arms={'W2C': ['H'], 'W2W': ['B']}
+17:42:22 [gpt-oss-20b] q8117 a0=I gold=I c0=100 arms={'C2W': ['I', 'I', 'I']}
+17:42:28 [allam-2-7b] q10698 a0=D gold=D c0=80 arms={'C2W': ['B']}
+17:42:29 [gpt-oss-20b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199252, Req
+17:42:29 [gpt-oss-20b] q4762 failed: daily limit
+17:42:30 [gpt-oss-20b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199248, Req
+17:42:30 [gpt-oss-20b] q9842 failed: daily limit
+17:42:30 [gpt-oss-20b] finished
+17:42:34 [gpt-oss-120b] q4762 a0=C gold=C c0=95 arms={'C2W': ['C', 'C', 'C']}
+17:42:39 [gpt-oss-120b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199293, Re
+17:42:39 [gpt-oss-120b] q3066 failed: daily limit
+17:42:39 [gpt-oss-120b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199292, Re
+17:42:39 [gpt-oss-120b] q9842 failed: daily limit
+17:42:39 [gpt-oss-120b] finished
+17:42:48 [qwen3.8-27b] q5562 a0=H gold=H c0=100 arms={'C2W': ['H', 'H', 'H']}
+17:42:52 [allam-2-7b] q7791 a0=A gold=C c0=100 arms={'W2C': ['C'], 'W2W': ['D']}
+17:42:59 [qwen3.8-27b] q3075 a0=J gold=J c0=95 arms={'C2W': ['J', 'J', 'J']}
+17:43:00 [qwen3.8-27b] q4757 failed: too many retries
+17:43:11 [allam-2-7b] q11150 a0=D gold=I c0=80 arms={'W2C': ['I'], 'W2W': ['A']}
+17:43:28 [allam-2-7b] q2391 a0=C gold=E c0=60 arms={'W2C': ['E'], 'W2W': ['F']}
+17:43:45 [qwen3.8-27b] q1293 a0=E gold=E c0=95 arms={'C2W': ['D']}
+17:43:57 [allam-2-7b] q8117 a0=D gold=I c0=90 arms={'W2C': ['I'], 'W2W': ['G']}
+17:44:17 [allam-2-7b] q9842 a0=G gold=G c0=99 arms={'C2W': ['D']}
+17:44:34 [allam-2-7b] q4762 a0=C gold=C c0=70 arms={'C2W': ['E']}
+17:44:41 [qwen3.8-27b] q4760 a0=F gold=F c0=95 arms={'C2W': ['F', 'F', 'F']}
+17:44:41 [qwen3.8-27b] q4782 a0=I gold=I c0=95 arms={'C2W': ['I', 'I', 'I']}
+17:44:43 [allam-2-7b] q3066 a0=None gold=G c0=5 arms={}
+17:45:05 [allam-2-7b] q7262 a0=C gold=B c0=60 arms={'W2C': ['B'], 'W2W': ['A']}
+17:45:34 [qwen3.8-27b] q447 a0=H gold=H c0=100 arms={'C2W': ['H', 'H', 'H']}
+17:45:34 [allam-2-7b] q3803 failed: too many retries
+17:45:40 [allam-2-7b] q437 a0=C gold=C c0=80 arms={'C2W': ['G']}
+17:45:50 [allam-2-7b] q5750 a0=H gold=H c0=80 arms={'C2W': ['B']}
+17:46:06 [allam-2-7b] q10363 a0=C gold=D c0=90 arms={'W2C': ['D'], 'W2W': ['J']}
+17:46:08 [qwen3.8-27b] q740 a0=J gold=J c0=100 arms={'C2W': ['J', 'J', 'J']}
+17:46:25 [allam-2-7b] q10344 a0=C gold=A c0=99 arms={'W2C': ['A'], 'W2W': ['D']}
