@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Confidence Under Pushback: slides</title>
+<style>
+@page { size: 13.333in 7.5in; margin: 0; }
+:root { --ink:#14213d; --muted:#5b6b82; --accent:#0b5cad; --warm:#d55e00; }
+html, body { margin:0; background:#fff; }
+body { font-family: Calibri, "Segoe UI", Arial, sans-serif; color: var(--ink); }
+.s { width: 13.333in; height: 7.5in; box-sizing: border-box; padding: 0.55in 0.75in; page-break-after: always; position: relative; overflow: hidden; }
+.s:last-child { page-break-after: auto; }
+h1 { font-size: 40pt; margin: 0 0 10px 0; line-height: 1.1; }
+h2 { font-size: 30pt; margin: 0 0 18px 0; color: var(--ink); }
+p, li { font-size: 19pt; line-height: 1.35; }
+li { margin-bottom: 8px; }
+.sub { font-size: 21pt; color: var(--muted); }
+.foot { position: absolute; bottom: 0.3in; left: 0.75in; right: 0.75in; font-size: 11pt; color: var(--muted); display:flex; justify-content: space-between; }
+.title { background: #0f1b2d; color: white; }
+.title h1 { color: white; font-size: 46pt; margin-top: 1.4in; }
+.title .sub { color: #c9d6ea; }
+.title .foot { color: #8fa3c0; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4in; align-items: center; }
+img { max-width: 100%; }
+.big { font-size: 54pt; font-weight: 700; color: var(--accent); line-height: 1; }
+.warn { color: var(--warm); }
+.box { background: #f3f6fa; border-left: 5px solid var(--accent); padding: 12px 18px; font-size: 18pt; }
+code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; padding: 0 4px; }
+</style></head><body>
+
+<section class="s title">
+  <h1>Confidence You Won't Defend</h1>
+  <p class="sub">Do LLMs act on their own stated confidence under escalating user pushback?</p>
+  <p class="sub" style="margin-top:0.6in">Harith Nabil · National University of Malaysia</p>
+  <div class="foot"><span>AI x Epistemics Research Sprint 2026 · Track 1: Model Epistemics &amp; Decision-Making Evals</span><span>with Apart Research</span></div>
+</section>
+
+<section class="s">
+  <h2>The question</h2>
+  <ul>
+    <li>Models tell users how sure they are ("90% confident"). That is an implicit promise about how solid a claim is.</li>
+    <li>Sycophancy work counts <b>how often</b> models flip. Calibration work asks if confidence predicts <b>correctness</b>.</li>
+    <li>Nobody checks whether stated confidence predicts what a model will <b>defend</b>.</li>
+  </ul>
+  <div class="box">Normative anchor (Bayes, uniform residual belief): <b>switch to the user's answer ⇔ your confidence c &lt; the user's reliability r</b>.<br>So switching should follow a threshold in the model's own confidence.</div>
+  <div class="foot"><span>Confidence You Won't Defend</span><span>2</span></div>
+</section>
+
+<section class="s">
+  <h2>Protocol</h2>
+  <ul>
+    <li>[[NQ]] MMLU-Pro questions × 4 open-weight models (gpt-oss-120b, gpt-oss-20b, Qwen3.8-27B, ALLaM-2-7B), Groq free tier, temperature 0.</li>
+    <li>T0: answer + <code>CONFIDENCE 0–100</code>. Then a fixed ladder with <b>no argument</b>: doubt → "my textbook says" → "I'm a professor".</li>
+    <li>Three arms: <b>C2W</b> (right, pushed to wrong), <b>W2C</b> (wrong, pushed to correct), <b>W2W</b> (wrong, pushed to a <i>different wrong</i> answer: the new control), plus a neutral "Are you sure?".</li>
+    <li>Metrics: defense gap, AUROC(conf→resist), latent discernment (W2C−W2W), implied user reliability <b>r*</b>.</li>
+  </ul>
+  <div class="foot"><span>[[NITEMS]] model–question pairs · [[NCALLS]] calls · $0 compute</span><span>3</span></div>
+</section>
+
+<section class="s">
+  <h2>Finding 1: for gpt-oss, confidence governs caving</h2>
+  <div class="two">
+    <img src="../figures/fig2_confidence_vs_defense.png">
+    <div>
+      <p><span class="big">[[F:gpt-oss-120b:auroc_conf_resist_turnlevel]]</span><br>AUROC: confidence predicts resistance (gpt-oss-120b)</p>
+      <p>Threshold fit <b>r* ≈ [[F:gpt-oss-120b:best_r]]</b>: the model acts as if a bare user assertion is about 80% reliable.</p>
+      <p>Correct answers surrendered: only <b>[[P:gpt-oss-120b:C2W_adopt3]]</b> (120b) and <b>[[P:gpt-oss-20b:C2W_adopt3]]</b> (20b).</p>
+    </div>
+  </div>
+  <div class="foot"><span>Figure: right panel = P(adopt) vs. stated confidence just before the push</span><span>4</span></div>
+</section>
+
+<section class="s">
+  <h2>Finding 2: "corrections" are mostly compliance</h2>
+  <div class="two">
+    <img src="../figures/fig1_flip_curves.png">
+    <div>
+      <p>When wrong, gpt-oss-120b adopts the <b>correct</b> answer in [[P:gpt-oss-120b:W2C_adopt3]] of cases… and a <b>different wrong</b> answer in [[P:gpt-oss-120b:W2W_adopt3]].</p>
+      <p>Latent discernment is only <b>[[PP:gpt-oss-120b:latent3]]</b>. A model changing its mind is weak evidence that the user was right.</p>
+      <p class="warn">Overconfidence carries over into behaviour: wrong answers stated at ≥90% resist <i>valid</i> correction.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Blue = W2C, grey = W2W control, orange = C2W</span><span>5</span></div>
+</section>
+
+<section class="s">
+  <h2>Finding 3: in a 7B model, confidence has no effect</h2>
+  <ul>
+    <li>ALLaM-2-7B adopts the user's answer on <b>[[P:allam-2-7b:base_adopt_rate_turnlevel]]</b> of pushback turns, whatever confidence it states.</li>
+    <li>Defense gap <b>[[PP:allam-2-7b:defense_gap]]</b>: it claims about [[P:allam-2-7b:mean_conf0]] confidence and keeps almost none of its correct answers.</li>
+    <li>Standard calibration metrics (ECE) do not reveal this. The defense gap does.</li>
+  </ul>
+  <div class="box">Takeaway for eval suites: report <b>defended calibration</b> (defense gap, r*, W2W-controlled discernment) next to ECE.<br>Cheap and label-free: code and full transcripts at <b>github.com/harithnabilf/confidence-under-pushback</b></div>
+  <div class="foot"><span>Limitations: open models only, one fixed ladder, random wrong targets (capitulation is a lower bound), small Qwen sample</span><span>6</span></div>
+</section>
+
+</body></html>

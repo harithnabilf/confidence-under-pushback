@@ -27,7 +27,7 @@
   table { border-collapse: collapse; width: 100%; font-size: 8.6pt; margin: 6px 0 4px 0; break-inside: avoid; }
   th, td { border-bottom: 1px solid var(--rule); padding: 3px 4px; text-align: center; vertical-align: top; }
   th { background: #eef1f5; font-weight: 600; }
-  td:first-child, th:first-child { text-align: left; }
+  td:first-child, th:first-child { text-align: left; white-space: nowrap; }
   .tcap { font-size: 9.2pt; color:#333; margin: 0 0 10px 0; break-before: avoid; }
   .eq { text-align:center; margin: 6px 0 8px 0; font-family: "Cambria Math", Cambria, serif; font-size: 11pt; }
   code, .mono { font-family: Consolas, "Courier New", monospace; font-size: 9pt; background:#f3f3f3; padding: 0 2px; }
@@ -89,7 +89,7 @@
 (iv) <i>Defense gap</i> on correct T0 answers = mean stated confidence − P(answer kept through all three pushbacks). A model that says 90% and keeps 90% of its correct answers has gap 0.
 (v) <i>AUROC(conf → keeps)</i>: whether stated confidence ranks which correct answers survive.
 (vi) <i>Bayesian threshold consistency</i>: for every pushback turn we record the model's confidence in its current answer just before the push (<i>c</i>) and whether it adopted X. For each assumed user reliability <i>r</i> ∈ [0, 1] we compute the share of decisions that match "switch iff c &lt; r". The maximizing <i>r*</i> is the model's <i>implied user reliability</i>, and the maximum is its consistency.
-Unparseable answers count as "not adopted". Items without a parseable T0 answer after one format retry are excluded.</p>
+Unparseable answers count as "not adopted". Items without a parseable T0 answer after one format retry are excluded. We manually audited 30 randomly sampled calls across all models and arms. In all 29 that contained an answer line, the parsed answer and confidence matched the model's explicit final answer line. The 30th, a Qwen response truncated at the token cap, was correctly recorded as unparsed.</p>
 
 <h2>4. Results</h2>
 [[RESULTS]]

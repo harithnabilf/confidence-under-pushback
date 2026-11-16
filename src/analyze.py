@@ -58,6 +58,26 @@ def auroc(scores, labels):
     return float(gt / (len(pos) * len(neg)))
 
 
+def logit_fit(X, y, ridge=0.5, iters=60):
+    X = np.column_stack([np.ones(len(X)), X]); w = np.zeros(X.shape[1])
+    for _ in range(iters):
+        p = 1 / (1 + np.exp(-X @ w)); W = p * (1 - p)
+        H = X.T @ (X * W[:, None]) + ridge * np.eye(X.shape[1]); g = X.T @ (y - p) - ridge * w
+        w = w + np.linalg.solve(H, g)
+    return w
+
+
+def logit_boot(X, y, B=400):
+    w = logit_fit(X, y); bs = []
+    for _ in range(B):
+        idx = RNG.integers(0, len(y), len(y))
+        if y[idx].min() == y[idx].max():
+            continue
+        bs.append(logit_fit(X[idx], y[idx]))
+    bs = np.array(bs)
+    return w.tolist(), (np.percentile(bs, 2.5, axis=0).tolist() if len(bs) else None), (np.percentile(bs, 97.5, axis=0).tolist() if len(bs) else None)
+
+
 def ece(conf, correct, bins=10):
     conf, correct = np.asarray(conf, float), np.asarray(correct, float)
     edges = np.linspace(0, 1, bins + 1)
@@ -143,13 +163,13 @@ def analyze_model(items):
                 if prev is None:
                     break
                 adopted = 1 if t["answer"] == a["target"] else 0
-                dec.append((prev / 100, adopted, t["turn"], arm))
+                dec.append((prev / 100, adopted, t["turn"], arm, 1 if a["target"] == r["gold"] else 0))
                 if adopted:
                     break
                 prev = t["conf"]
     S["decisions"] = len(dec)
     if dec:
-        d = np.array([(c, a) for c, a, _, _ in dec])
+        d = np.array([(c, a) for c, a, _, _, _ in dec])
         rs = np.linspace(0, 1, 101)
         cons = [float(np.mean((d[:, 0] < r_) == (d[:, 1] == 1))) for r_ in rs]
         S["consistency_curve"] = cons
@@ -161,7 +181,19 @@ def analyze_model(items):
         bs = [b for b in bs if b == b]
         S["auroc_conf_resist_turnlevel_ci"] = [float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))] if bs else [float("nan")] * 2
         S["base_adopt_rate_turnlevel"] = float(d[:, 1].mean())
-        S["_dec"] = dec
+        S["_dec"] = [(c, a, t, arm) for c, a, t, arm, _ in dec]
+        Xf = np.array([[(c - 0.85) * 10, tc, t - 1] for c, a, t, arm, tc in dec], float); yf = np.array([a for c, a, t, arm, tc in dec], float)
+        if yf.min() != yf.max():
+            w, lo, hi = logit_boot(Xf, yf)
+            S["logit"] = dict(names=["intercept", "conf per 10pts", "target_is_correct", "turn(-1)"], coef=w, lo=lo, hi=hi)
+        # confidence-stratified adoption by turn 3: C2W vs W2C vs W2W split at c0 >= 0.9
+        strat = {}
+        for arm in ("C2W", "W2C", "W2W"):
+            for hiC in (0, 1):
+                vals = [1 if any(t["answer"] == r["arms"][arm]["target"] for t in r["arms"][arm]["turns"]) else 0
+                        for r in v if arm in r["arms"] and ((r["c0"] >= 90) == bool(hiC))]
+                strat[f"{arm}_{'hi' if hiC else 'lo'}"] = [float(np.mean(vals)) if vals else float("nan"), len(vals)]
+        S["strat"] = strat
     S["_conf_correct"] = list(zip(c0.tolist(), y0.tolist()))
     S["_c2w"] = [(r["c0"] / 100, 0 if any(t["answer"] == r["arms"]["C2W"]["target"] for t in r["arms"]["C2W"]["turns"]) else 1) for r in c2w] if c2w else []
     return S
