@@ -2,7 +2,7 @@
 
 **Stated confidence under argument-free user pushback.**
 This project was built for the [AI x Epistemics Research Sprint](https://apartresearch.com/sprints/ai-x-epistemics-research-sprint-2026-11-13-to-2026-11-15) (Apart Research, Nov 13–15, 2026), Track 1: Model Epistemics & Decision-Making Evals.
-Author: Harith Nabil (National University of Malaysia).
+Author: Harith Nabil bin Farouk (National University of Malaysia).
 
 All code in this repo was written during the sprint. There is no preexisting code.
 
