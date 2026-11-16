@@ -1,0 +1,6 @@
+.env
+*.env
+__pycache__/
+*.pyc
+results/run_stdout.txt
+report/draft.pdf
