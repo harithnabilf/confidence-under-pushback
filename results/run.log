@@ -255,15 +255,15 @@
 17:42:21 [allam-2-7b] q7500 a0=C gold=H c0=90 arms={'W2C': ['H'], 'W2W': ['B']}
 17:42:22 [gpt-oss-20b] q8117 a0=I gold=I c0=100 arms={'C2W': ['I', 'I', 'I']}
 17:42:28 [allam-2-7b] q10698 a0=D gold=D c0=80 arms={'C2W': ['B']}
-17:42:29 [gpt-oss-20b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199252, Req
+17:42:29 [gpt-oss-20b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_[REDACTED]` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199252, Req
 17:42:29 [gpt-oss-20b] q4762 failed: daily limit
-17:42:30 [gpt-oss-20b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199248, Req
+17:42:30 [gpt-oss-20b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_[REDACTED]` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199248, Req
 17:42:30 [gpt-oss-20b] q9842 failed: daily limit
 17:42:30 [gpt-oss-20b] finished
 17:42:34 [gpt-oss-120b] q4762 a0=C gold=C c0=95 arms={'C2W': ['C', 'C', 'C']}
-17:42:39 [gpt-oss-120b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199293, Re
+17:42:39 [gpt-oss-120b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_[REDACTED]` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199293, Re
 17:42:39 [gpt-oss-120b] q3066 failed: daily limit
-17:42:39 [gpt-oss-120b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199292, Re
+17:42:39 [gpt-oss-120b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_[REDACTED]` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199292, Re
 17:42:39 [gpt-oss-120b] q9842 failed: daily limit
 17:42:39 [gpt-oss-120b] finished
 17:42:48 [qwen3.8-27b] q5562 a0=H gold=H c0=100 arms={'C2W': ['H', 'H', 'H']}
@@ -386,9 +386,9 @@
 18:11:29 [allam-2-7b] q12211 a0=B gold=D c0=70 arms={'W2C': ['D'], 'W2W': ['F']}
 18:12:07 [qwen3.8-27b] q10697 a0=D gold=D c0=95 arms={'C2W': ['D', 'D', 'D']}
 18:12:14 [allam-2-7b] q11604 a0=A gold=G c0=80 arms={'W2C': ['G'], 'W2W': ['H']}
-18:12:17 [qwen3.8-27b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198926, Reque
+18:12:17 [qwen3.8-27b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_[REDACTED]` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198926, Reque
 18:12:17 [qwen3.8-27b] q10927 failed: daily limit
-18:12:17 [qwen3.8-27b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01m7f78tn5eamvja0ts46xjdpj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199381, Reque
+18:12:17 [qwen3.8-27b] DAILY LIMIT: {"error":{"message":"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_[REDACTED]` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199381, Reque
 18:12:17 [qwen3.8-27b] q2587 failed: daily limit
 18:12:17 [qwen3.8-27b] finished
 18:12 RUN STOPPED (manual, after gpt-oss and qwen hit daily caps)
