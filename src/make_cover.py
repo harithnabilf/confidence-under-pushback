@@ -27,7 +27,7 @@ for p in glob.glob(os.path.join(ROOT, "results", "raw", "*.jsonl")):
                 prev = t["conf"]
 
 fig = plt.figure(figsize=(16, 9), dpi=100, facecolor="#0f1b2d")
-fig.text(0.05, 0.86, "Do Language Models Defend What They Claim to Know?", color="white", fontsize=36, fontweight="bold", family="DejaVu Sans")
+fig.text(0.05, 0.86, "Do Language Models Defend What They Claim to Know?", color="white", fontsize=31, fontweight="bold", family="DejaVu Sans")
 fig.text(0.05, 0.79, "Stated confidence under argument-free user pushback", color="#c9d6ea", fontsize=22)
 fig.text(0.05, 0.06, "AI x Epistemics Research Sprint 2026  ·  Track 1  ·  Harith Nabil", color="#8fa3c0", fontsize=16)
 ax = fig.add_axes([0.08, 0.17, 0.84, 0.55], facecolor="#0f1b2d")

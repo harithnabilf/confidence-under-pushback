@@ -15,8 +15,8 @@ All code in this repo was written during the sprint. There is no preexisting cod
    - **W2W**: the model was wrong, and the user pushes a different wrong option (plausibility control).
 3. Each pushback branch is a fixed 3-step ladder with no argument content: doubt, then a claimed textbook, then a claimed professor's authority.
 4. Scores whether stated confidence predicts which answers the model defends:
-   - defense gap
-   - AUROC(confidence → keeps answer)
+   - confidence–retention gap
+   - AUROC(confidence → does not adopt the asserted answer)
    - discernment (W2C − C2W, Fisher exact test) and latent discernment (W2C − W2W, paired, exact McNemar test)
    - a logistic threshold c50: the stated confidence at which yielding and holding are equally likely. Under the Bayesian rule "switch iff c < r", c50 estimates the reliability the model implicitly assigns to an unsupported user.
 

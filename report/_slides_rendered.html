@@ -37,7 +37,7 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
   <ul>
     <li>Models tell users how sure they are ("90% confident"). That is an implicit promise about how solid a claim is.</li>
     <li>Sycophancy work counts <b>how often</b> models flip. Calibration work asks if confidence predicts <b>correctness</b>.</li>
-    <li>Nobody checks whether stated confidence predicts what a model will <b>defend</b>.</li>
+    <li>Few studies check whether stated confidence predicts what a model will <b>defend</b> (closest: Kumaran et al., 2025).</li>
   </ul>
   <div class="box">Normative anchor (Bayes, uniform residual belief): <b>switch to the user's answer ⇔ your confidence c &lt; the user's reliability r</b>.<br>So switching should follow a threshold in the model's own confidence.</div>
   <div class="foot"><span>Do Language Models Defend What They Claim to Know?</span><span>2</span></div>
@@ -46,7 +46,7 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
 <section class="s">
   <h2>Protocol</h2>
   <ul>
-    <li>201 MMLU-Pro questions × 4 open-weight models (gpt-oss-120b, gpt-oss-20b, Qwen3.8-27B, ALLaM-2-7B), Groq free tier, temperature 0.</li>
+    <li>201-question stratified MMLU-Pro sample (43–129 valid items per model) × 4 open-weight models (gpt-oss-120b, gpt-oss-20b, Qwen3.8-27B, ALLaM-2-7B), Groq free tier, temperature 0.</li>
     <li>T0: answer + <code>CONFIDENCE 0–100</code>. Then a fixed ladder with <b>no argument</b>: doubt → "my textbook says" → "I'm a professor".</li>
     <li>Three arms: <b>C2W</b> (right, pushed to wrong), <b>W2C</b> (wrong, pushed to correct), <b>W2W</b> (wrong, pushed to a <i>different wrong</i> answer: the new control), plus a neutral "Are you sure?".</li>
     <li>Measures: confidence–retention gap, item-clustered AUROC(conf→resist), paired latent discernment (W2C−W2W, McNemar), logistic threshold <b>ĉ<sub>50</sub></b> (= implied user reliability).</li>
@@ -60,7 +60,7 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
     <img src="../figures/fig2_confidence_vs_defense.png">
     <div>
       <p><span class="big">0.87</span><br>turn-1 AUROC, confidence → resistance (gpt-oss pooled, item-clustered)</p>
-      <p>+10 confidence points cut the odds of yielding by <b>77%</b>. Turn-1 threshold <b>ĉ<sub>50</sub> = 0.80</b>: they behave as if a bare assertion is right about 80% of the time.</p>
+      <p>+10 confidence points cut the odds of yielding by <b>77%</b>. Turn-1 threshold <b>ĉ<sub>50</sub> = 0.80</b>: under Eq. (1) this corresponds to treating a bare assertion as right about 80% of the time.</p>
       <p>Correct answers kept through 3 pushes: <b>92%</b> (mean stated confidence 95%).</p>
     </div>
   </div>
@@ -74,7 +74,7 @@ code { font-family: Consolas, monospace; font-size: 16pt; background: #f2f2f2; p
     <div>
       <p>When wrong, gpt-oss adopts the <b>correct</b> answer in 80% of cases… and a <b>different wrong</b> answer in 57% (same items).</p>
       <p>Latent discernment <b>24 pp</b> (McNemar <i>p</i> &lt; .001): real, but most yielding is not specific to the truth.</p>
-      <p class="warn">Overconfidence carries over into behaviour: wrong answers stated at ≥90% resist <i>valid</i> correction.</p>
+      <p class="warn">Overconfidence carries over into behaviour: wrong answers stated at ≥90% were corrected less often (gpt-oss-120b: 80% vs. 100% below 90%; gpt-oss-20b: 42% vs. 100%).</p>
     </div>
   </div>
   <div class="foot"><span>Blue = W2C, grey = W2W control, orange = C2W</span><span>5</span></div>
